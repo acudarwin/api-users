@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+    postgres:
+        container_name: postgres_users
+        image: postgres:latest
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=users
+    gae-service:
+        build: .
+        container_name: ${DOCKER_SERVICE_NAME}
+        env_file:
+            - .env
+        ports:
+            - ${DOCKER_PORT}:8000
+        volumes:
+            - ./src:/app/src
